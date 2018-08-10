@@ -38,38 +38,27 @@ public class DataManager<ManagedDataType: Codable> {
     /// The observer object handed back after registering to observe a property.
     private var userDefaultsObserver: NSKeyValueObservation?
     
-    /// The data managed by this `DataManager`.
-    var managedDataBackingInstance: ManagedDataType!
+    /// The data managed by this `DataManager`. Only access this via on the `dataAccessQueue`.
+    var managedData: ManagedDataType!
     
-    /// Access to `managedDataBackingInstance` needs to occur on a dedicated queue to avoid data races.
+    /// Access to `managedData` needs to occur on a dedicated queue to avoid data races.
     let dataAccessQueue = DispatchQueue(label: "Data Access Queue")
-    
-    /// Public access to the managed data for clients of `DataManager`
-    public var managedData: ManagedDataType! {
-        var data: ManagedDataType!
-        dataAccessQueue.sync {
-            data = managedDataBackingInstance
-        }
-        
-        return data
-    }
     
     init(storageDescriptor: UserDefaultsStorageDescriptor) {
         self.storageDescriptor = storageDescriptor
         loadData()
         
-        if managedDataBackingInstance == nil {
-            managedDataBackingInstance = createInitialData()
+        if managedData == nil {
+            deployInitialData()
             writeData()
         }
         
         observeChangesInUserDefaults()
     }
     
-    /// Creates the starter data. Subclasses are expected to implement this method and provide their own initial data.
-    /// The data returned from this method is saved to `UserDefaults`.
-    func createInitialData() -> ManagedDataType! {
-        return nil
+    /// Subclasses are expected to implement this method and set their own initial data for `managedData`.
+    func deployInitialData() {
+        
     }
     
     private func observeChangesInUserDefaults() {
@@ -91,16 +80,13 @@ public class DataManager<ManagedDataType: Codable> {
     /// Loads the data from `UserDefaults`.
     private func loadData() {
         userDefaultsAccessQueue.sync {
-            if let archivedData = userDefaults.data(forKey: storageDescriptor.key) {
-                
-                do {
-                    let decoder = PropertyListDecoder()
-                    managedDataBackingInstance = try decoder.decode(ManagedDataType.self, from: archivedData)
-                } catch {
-                    if let error = error as NSError? {
-                        os_log("Error initializing NSKeyedArchiver: %@", log: OSLog.default, type: .error, error)
-                    }
-                }
+            guard let archivedData = userDefaults.data(forKey: storageDescriptor.key) else { return }
+            
+            do {
+                let decoder = PropertyListDecoder()
+                managedData = try decoder.decode(ManagedDataType.self, from: archivedData)
+            } catch let error as NSError {
+                os_log("Error decoding data: %@", log: OSLog.default, type: .error, error)
             }
         }
     }
@@ -110,7 +96,7 @@ public class DataManager<ManagedDataType: Codable> {
         userDefaultsAccessQueue.async {
             do {
                 let encoder = PropertyListEncoder()
-                let encodedData = try encoder.encode(self.managedDataBackingInstance)
+                let encodedData = try encoder.encode(self.managedData)
                 
                 self.ignoreLocalUserDefaultsChanges = true
                 self.userDefaults.set(encodedData, forKey: self.storageDescriptor.key)
@@ -118,8 +104,8 @@ public class DataManager<ManagedDataType: Codable> {
                 
                 self.notifyClientsDataChanged()
                 
-            } catch let error {
-                fatalError("Could not save data. Reason: \(error)")
+            } catch let error as NSError {
+                os_log("Could not encode data %@", log: OSLog.default, type: .error, error)
             }
         }
     }

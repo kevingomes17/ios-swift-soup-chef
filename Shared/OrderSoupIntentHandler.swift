@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Intent handler for OrderSoupIntents delivered by the system.
+Intent handler for `OrderSoupIntent`.
 */
 
 import UIKit
@@ -26,7 +26,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
 
         if menuItem.isAvailable == false {
             //  Here's an example of how to use a custom response for a failure case when a particular soup item is unavailable.
-            completion(OrderSoupIntentResponse.failureSoupUnavailable(soup: soup))
+            completion(OrderSoupIntentResponse.failureOutOfStock(soup: soup))
             return
         }
         
@@ -51,7 +51,26 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
         orderManager.placeOrder(order: order)
         
         //  For the success case, we want to indicate a wait time to the user so that they know when their soup order will be ready.
-        //  Ths sample uses a hardcoded value, but your implementation could use a time interval returned by your server.
-        completion(OrderSoupIntentResponse.success(soup: soup, waitTime: 10))
+        //  Ths sample uses a hardcoded value, but your implementation could use a time returned by your server.
+        let orderDate = Date()
+        let readyDate = Date(timeInterval: 10 * 60, since: orderDate) // 10 minutes
+        
+        let userActivity = NSUserActivity(activityType: NSUserActivity.orderCompleteActivityType)
+        userActivity.addUserInfoEntries(from: [NSUserActivity.ActivityKeys.orderID.rawValue: order.identifier])
+        
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .full
+        if let formattedWaitTime = formatter.string(from: orderDate, to: readyDate) {
+            let response = OrderSoupIntentResponse.success(soup: soup, waitTime: formattedWaitTime)
+            response.userActivity = userActivity
+            
+            completion(response)
+        } else {
+            // A fallback success code with a less specific message string
+            let response = OrderSoupIntentResponse.successReadySoon(soup: soup)
+            response.userActivity = userActivity
+            
+            completion(response)
+        }
     }
 }

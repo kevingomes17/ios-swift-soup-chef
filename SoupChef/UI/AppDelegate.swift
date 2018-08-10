@@ -13,38 +13,28 @@ import os.log
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    /// - Tag: handle_in_app_delegate
+    
     func application(_ application: UIApplication,
                      continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if let intent = userActivity.interaction?.intent as? OrderSoupIntent {
-            handle(intent)
-            return true
-        } else if userActivity.activityType == NSUserActivity.viewMenuActivityType {
-            handleUserActivity()
-            return true
+        
+        guard userActivity.activityType == NSStringFromClass(OrderSoupIntent.self) ||
+            userActivity.activityType == NSUserActivity.viewMenuActivityType ||
+            userActivity.activityType == NSUserActivity.orderCompleteActivityType else {
+            os_log("Can't continue unknown NSUserActivity type %@", userActivity.activityType)
+            return false
         }
-        return false
-    }
-    
-    private func handle(_ intent: OrderSoupIntent) {
-        let handler = OrderSoupIntentHandler()
-        handler.handle(intent: intent) { (response) in
-            if response.code != .success {
-                os_log("Quantity must be greater than 0 to add to order")
-            }
-        }
-    }
-    
-    private func handleUserActivity() {
+        
         guard let window = window,
-            let rootViewController = window.rootViewController as? UINavigationController,
-            let orderHistoryViewController = rootViewController.viewControllers.first as? OrderHistoryTableViewController else {
-                os_log("Failed to access OrderHistoryTableViewController.")
-                return
+            let rootViewController = window.rootViewController as? UINavigationController else {
+                os_log("Failed to access root view controller.")
+                return false
         }
-        let segue = OrderHistoryTableViewController.SegueIdentifiers.soupMenu.rawValue
-        orderHistoryViewController.performSegue(withIdentifier: segue, sender: nil)
+        
+        // The `restorationHandler` passes the user activity to the passed in view controllers to route the user to the part of the app
+        // that is able to continue the specific activity. See `restoreUserActivityState` in `OrderHistoryTableViewController`
+        // to follow the continuation of the activity further.
+        restorationHandler(rootViewController.viewControllers)
+        return true
     }
 }

@@ -18,9 +18,11 @@ public class SoupOrderDataManager: DataManager<[Order]> {
         self.init(storageDescriptor: storageInfo)
     }
     
-    override func createInitialData() -> [Order]! {
-        // Order history is empty the first time the app is used.
-        return []
+    override func deployInitialData() {
+        dataAccessQueue.sync {
+            // Order history is empty the first time the app is used.
+            managedData = []
+        }
     }
 
     /// Converts an `Order` into `OrderSoupIntent` and donates it as an interaction to the system
@@ -29,6 +31,11 @@ public class SoupOrderDataManager: DataManager<[Order]> {
     /// - Tag: donate_order
     private func donateInteraction(for order: Order) {
         let interaction = INInteraction(intent: order.intent, response: nil)
+        
+        // The order identifier is used to match with the donation so the interaction
+        // can be deleted if a soup is removed from the menu.
+        interaction.identifier = order.identifier.uuidString
+        
         interaction.donate { (error) in
             if error != nil {
                 if let error = error as NSError? {
@@ -46,13 +53,22 @@ extension SoupOrderDataManager {
     
     /// Convenience method to access the data with a property name that makes sense in the caller's context.
     public var orderHistory: [Order] {
-        return managedData as [Order]
+        return dataAccessQueue.sync {
+            return managedData
+        }
     }
     
+    /// Tries to find an order by its identifier
+    public func order(matching identifier: UUID) -> Order? {
+        return orderHistory.first { $0.identifier == identifier }
+    }
+    
+    /// Stores the order in the data manager.
+    /// Note: This project does not share data between iOS and watchOS. Orders placed on the watch will not display in the iOS order history.
     public func placeOrder(order: Order) {
         //  Access to `managedDataBackingInstance` is only valid on `dataAccessQueue`.
         dataAccessQueue.sync {
-            managedDataBackingInstance.insert(order, at: 0)
+            managedData.insert(order, at: 0)
         }
         
         //  Access to UserDefaults is gated behind a separate access queue.

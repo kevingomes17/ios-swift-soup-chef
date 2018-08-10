@@ -34,13 +34,10 @@ class ConfigureMenuTableViewController: UITableViewController {
     }
     
     private func reloadData() {
-        let sortedRegularMenuItems = soupMenuManager.allRegularItems.sorted {
-            $0.localizedString.localizedCaseInsensitiveCompare($1.localizedString) == ComparisonResult.orderedAscending
-        }
         sectionData =  [SectionModel(sectionType: .regularItems,
                                      sectionHeaderText: "Regular Menu Items",
                                      sectionFooterText: "Uncheck a row to delete any donated shortcuts associated with the menu item.",
-                                     rowContent: sortedRegularMenuItems),
+                                     rowContent: soupMenuManager.regularItems),
                         SectionModel(sectionType: .specialItems,
                                      sectionHeaderText: "Daily Special Menu Items",
                                      sectionFooterText: "Check a row in this section to provide a relevant shortcut.",
@@ -65,7 +62,7 @@ extension ConfigureMenuTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Basic Cell", for: indexPath)
         let menuItem = sectionData[indexPath.section].rowContent[indexPath.row]
-        cell.textLabel?.text = menuItem.localizedString
+        cell.textLabel?.text = menuItem.itemName
         cell.accessoryType = menuItem.isAvailable ? .checkmark : .none
         return cell
     }

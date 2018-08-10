@@ -19,12 +19,11 @@ struct OrderDetailTableConfiguration {
         case quantity = "Quantity"
         case options = "Options"
         case total = "Total"
-        case voiceShortcut = "Shortcut Phrase"
     }
     
-    enum BasicCellType: String {
+    enum ReuseIdentifiers: String {
         case basic = "Basic Cell"
-        case voiceShortcut = "Voice Shortcut"
+        case quantity = "Quantity Cell"
     }
     
     public let orderType: OrderType
@@ -37,29 +36,26 @@ struct OrderDetailTableConfiguration {
     
     private static let newOrderSectionModel: [SectionModel] = [SectionModel(type: .price,
                                                                             rowCount: 1,
-                                                                            cellReuseIdentifier: BasicCellType.basic.rawValue),
+                                                                            cellReuseIdentifier: ReuseIdentifiers.basic.rawValue),
                                                                SectionModel(type: .quantity,
                                                                             rowCount: 1,
-                                                                            cellReuseIdentifier: QuantityCell.reuseIdentifier),
+                                                                            cellReuseIdentifier: ReuseIdentifiers.quantity.rawValue),
                                                                SectionModel(type: .options,
                                                                             rowCount: Order.MenuItemOption.all.count,
-                                                                            cellReuseIdentifier: BasicCellType.basic.rawValue),
+                                                                            cellReuseIdentifier: ReuseIdentifiers.basic.rawValue),
                                                                SectionModel(type: .total,
                                                                             rowCount: 1,
-                                                                            cellReuseIdentifier: BasicCellType.basic.rawValue)]
+                                                                            cellReuseIdentifier: ReuseIdentifiers.basic.rawValue)]
     
     private static let historicalOrderSectionModel: [SectionModel] = [SectionModel(type: .quantity,
                                                                                    rowCount: 1,
-                                                                                   cellReuseIdentifier: QuantityCell.reuseIdentifier),
+                                                                                   cellReuseIdentifier: ReuseIdentifiers.quantity.rawValue),
                                                                       SectionModel(type: .options,
                                                                                    rowCount: Order.MenuItemOption.all.count,
-                                                                                   cellReuseIdentifier: BasicCellType.basic.rawValue),
+                                                                                   cellReuseIdentifier: ReuseIdentifiers.basic.rawValue),
                                                                       SectionModel(type: .total,
                                                                                    rowCount: 1,
-                                                                                   cellReuseIdentifier: BasicCellType.basic.rawValue),
-                                                                      SectionModel(type: .voiceShortcut,
-                                                                                   rowCount: 1,
-                                                                                   cellReuseIdentifier: BasicCellType.voiceShortcut.rawValue)]
+                                                                                   cellReuseIdentifier: ReuseIdentifiers.basic.rawValue)]
     
     var sections: [SectionModel] {
         switch orderType {

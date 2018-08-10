@@ -14,9 +14,23 @@ public typealias SoupMenu = Set<MenuItem>
 public class SoupMenuManager: DataManager<Set<MenuItem>> {
     
     private static let defaultMenu: SoupMenu = [
-        MenuItem(itemNameKey: "CHICKEN_NOODLE_SOUP", price: 4.55, iconImageName: "chicken_noodle_soup", isAvailable: false, isDailySpecial: true),
-        MenuItem(itemNameKey: "CLAM_CHOWDER", price: 3.75, iconImageName: "new_england_clam_chowder", isAvailable: true, isDailySpecial: false),
-        MenuItem(itemNameKey: "TOMATO_SOUP", price: 2.95, iconImageName: "tomato_soup", isAvailable: true, isDailySpecial: false)
+        MenuItem(itemName: "Chicken Noodle Soup",
+                 shortcutNameKey: "CHICKEN_NOODLE_SOUP",
+                 price: 4.55, iconImageName: "chicken_noodle_soup",
+                 isAvailable: true,
+                 isDailySpecial: true),
+        MenuItem(itemName: "Clam Chowder",
+                 shortcutNameKey: "CLAM_CHOWDER",
+                 price: 3.75,
+                 iconImageName: "clam_chowder",
+                 isAvailable: true,
+                 isDailySpecial: false),
+        MenuItem(itemName: "Tomato Soup",
+                 shortcutNameKey: "TOMATO_SOUP",
+                 price: 2.95,
+                 iconImageName: "tomato_soup",
+                 isAvailable: true,
+                 isDailySpecial: false)
     ]
     
     public var orderManager: SoupOrderDataManager?
@@ -27,118 +41,64 @@ public class SoupMenuManager: DataManager<Set<MenuItem>> {
         self.init(storageDescriptor: storageInfo)
     }
     
-    override func createInitialData() -> Set<MenuItem>! {
-        return SoupMenuManager.defaultMenu
+    override func deployInitialData() {
+        dataAccessQueue.sync {
+            managedData = SoupMenuManager.defaultMenu
+        }
+        
+        updateShortcuts()
     }
 }
 
 /// Public API for clients of `SoupMenuManager`
 extension SoupMenuManager {
     
-    public var dailySpecialItems: [MenuItem] {
-        var specials: [MenuItem] = []
-        dataAccessQueue.sync {
-            specials = managedDataBackingInstance.filter { $0.isDailySpecial == true }
+    public var availableItems: [MenuItem] {
+        return dataAccessQueue.sync {
+            return managedData.filter { $0.isAvailable == true }.sortedByName()
         }
-        return specials
     }
     
-    public var allRegularItems: [MenuItem] {
-        var specials: [MenuItem] = []
-        dataAccessQueue.sync {
-            specials = managedDataBackingInstance.filter { $0.isDailySpecial == false }
+    public var availableDailySpecialItems: [MenuItem] {
+        return dataAccessQueue.sync {
+            return managedData.filter { $0.isDailySpecial == true && $0.isAvailable == true }.sortedByName()
         }
-        return specials
+    }
+    
+    public var dailySpecialItems: [MenuItem] {
+        return dataAccessQueue.sync {
+            return managedData.filter { $0.isDailySpecial == true }.sortedByName()
+        }
+    }
+    
+    public var regularItems: [MenuItem] {
+        return dataAccessQueue.sync {
+            return managedData.filter { $0.isDailySpecial == false }.sortedByName()
+        }
     }
     
     public var availableRegularItems: [MenuItem] {
-        return allRegularItems.filter { $0.isAvailable == true }
+        return dataAccessQueue.sync {
+            return managedData.filter { $0.isDailySpecial == false && $0.isAvailable == true }.sortedByName()
+        }
     }
     
     public func replaceMenuItem(_ previousMenuItem: MenuItem, with menuItem: MenuItem) {
         dataAccessQueue.sync {
-            managedDataBackingInstance.remove(previousMenuItem)
-            managedDataBackingInstance.insert(menuItem)
+            managedData.remove(previousMenuItem)
+            managedData.insert(menuItem)
         }
         
         //  Access to UserDefaults is gated behind a seperate access queue.
         writeData()
         
-        // Inform Siri of changes to the menu.
         removeDonation(for: menuItem)
-        suggest(menuItem)
+        updateShortcuts()
     }
     
     public func findItem(identifier: String) -> MenuItem? {
-        var matchedItems: [MenuItem] = []
-        dataAccessQueue.sync {
-            matchedItems = managedDataBackingInstance.filter { $0.itemNameKey == identifier }
-        }
-        
-        return matchedItems.first
-    }
-}
-
-/// This extension contains supporting methods for using the Intents framework.
-extension SoupMenuManager {
-    
-    /// Each time an order is placed we instantiate an INInteraction object and donate it to the system (see SoupOrderDataManager extension).
-    /// After instantiating the INInteraction, it's identifier property is set to the same value as the identifier
-    /// property for the corresponding order. Compile a list of all the order identifiers to pass to the INInteraction delete method.
-    private func removeDonation(for menuItem: MenuItem) {
-        if menuItem.isAvailable == false {
-            guard let orderHistory = orderManager?.orderHistory else { return }
-            let ordersAssociatedWithRemovedMenuItem = orderHistory.filter { $0.menuItem.itemNameKey == menuItem.itemNameKey }
-            let orderIdentifiersToRemove = ordersAssociatedWithRemovedMenuItem.map { $0.identifier.uuidString }
-            
-            INInteraction.delete(with: orderIdentifiersToRemove) { (error) in
-                if error != nil {
-                    if let error = error as NSError? {
-                        os_log("Failed to delete interactions with error: %@", log: OSLog.default, type: .error, error)
-                    }
-                } else {
-                    os_log("Successfully deleted interactions")
-                }
-            }
-        }
-    }
-    
-    // - CodeListing: relevant_shortcut
-    
-    /// Configures a daily soup special to be made available as a relevant shortcut. This item
-    /// is not available on the regular menu to demonstrate how relevant shortcuts are able to
-    /// suggest tasks the user may want to start, but hasn't used in the app before.
-    private func suggest(_ menuItem: MenuItem) {
-        if menuItem.isDailySpecial && menuItem.isAvailable {
-            let order = Order(quantity: 1, menuItem: menuItem, menuItemOptions: [])
-            let orderIntent = order.intent
-            
-            guard let shortcut = INShortcut(intent: orderIntent) else { return }
-            let suggestedShortcut = INRelevantShortcut(shortcut: shortcut)
-            
-            let localizedTitle = NSLocalizedString("ORDER_LUNCH_TITLE", bundle: Bundle.soupKitBundle, comment: "Relevant shortcut title")
-            let template = INDefaultCardTemplate(title: localizedTitle)
-            template.subtitle = menuItem.itemNameKey
-            
-            if let image = UIImage(named: menuItem.iconImageName),
-                let data = image.pngData() {
-                template.image = INImage(imageData: data)
-            }
-            
-            suggestedShortcut.watchTemplate = template
-                        
-            // Make a lunch suggestion when arriving to work.
-            let routineRelevanceProvider = INDailyRoutineRelevanceProvider(situation: .work)
-
-            // This sample uses a single relevance provider, but using multiple relevance providers is supported.
-            suggestedShortcut.relevanceProviders = [routineRelevanceProvider]
-            INRelevantShortcutStore.default.setRelevantShortcuts([suggestedShortcut]) { (error) in
-                if let error = error as NSError? {
-                    os_log("Providing relevant shortcut failed. \n%@", log: OSLog.default, type: .error, error)
-                } else {
-                    os_log("Prvoding relevant shortcut succeeded.")
-                }
-            }
+        return dataAccessQueue.sync {
+            return managedData.first { $0.itemName == identifier }
         }
     }
 }
@@ -148,5 +108,13 @@ private extension UserDefaults {
     
     @objc var menu: Data? {
         return data(forKey: StorageKeys.soupMenu.rawValue)
+    }
+}
+
+private extension Array where Element == MenuItem {
+    func sortedByName() -> [MenuItem] {
+        return sorted { (item1, item2) -> Bool in
+            item1.itemName.localizedCaseInsensitiveCompare(item2.itemName) == .orderedAscending
+        }
     }
 }

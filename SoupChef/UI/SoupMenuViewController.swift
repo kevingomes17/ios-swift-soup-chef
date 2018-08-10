@@ -9,39 +9,45 @@ import UIKit
 import SoupKit
 import os.log
 
-class SoupMenuItemDetailCell: UITableViewCell {
-    static let reuseIdentifier = "SoupMenuItemDetailCell"
-    @IBOutlet weak var detailView: MenuItemView!
-}
-
 class SoupMenuViewController: UITableViewController {
     
-    public var menuItems: [MenuItem] = SoupMenuManager().availableRegularItems
+    private static let cellReuseIdentifier = "SoupMenuItemDetailCell"
+    
+    private enum SegueIdentifiers: String {
+        case newOrder = "Show New Order Detail Segue"
+    }
+    
+    private var menuItems: [MenuItem] = SoupMenuManager().availableRegularItems
+    
+    override var userActivity: NSUserActivity? {
+        didSet {
+            if userActivity?.activityType == NSStringFromClass(OrderSoupIntent.self) {
+                performSegue(withIdentifier: SegueIdentifiers.newOrder.rawValue, sender: userActivity)
+            }
+        }
+    }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        userActivity = NSUserActivity.viewMenuActivity
-    }
-    
-    override func updateUserActivityState(_ activity: NSUserActivity) {
-        let userInfo: [String: Any] =  [NSUserActivity.ActivityKeys.menuItems: menuItems.map { $0.itemNameKey },
-                                             NSUserActivity.ActivityKeys.segueId: "Soup Menu"]
-        
-        activity.addUserInfoEntries(from: userInfo)
-    }
-    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Show New Order Detail Segue" {
-            guard let destination = segue.destination as? OrderDetailViewController,
-                let indexPath = (tableView.indexPathForSelectedRow) else {
-                    return
+        if segue.identifier == SegueIdentifiers.newOrder.rawValue {
+            guard let destination = segue.destination as? OrderDetailViewController else { return }
+            
+            var order: Order?
+            
+            if sender as? UITableViewCell? != nil,
+                let indexPath = tableView.indexPathForSelectedRow {
+                order = Order(quantity: 1, menuItem: menuItems[indexPath.row], menuItemOptions: [])
+            } else if let activity = sender as? NSUserActivity,
+                let orderIntent = activity.interaction?.intent as? OrderSoupIntent {
+                order = Order(from: orderIntent)
             }
-            // Pass the represented menu item to NewOrderDetailViewController.
-            let orderType = OrderDetailTableConfiguration(orderType: .new)
-            let newOrder = Order(quantity: 0, menuItem: menuItems[indexPath.row], menuItemOptions: [])
-            destination.configure(tableConfiguration: orderType, order: newOrder, voiceShortcutDateManager: nil)
+            
+            if let order = order {
+                // Pass the represented menu item to OrderDetailTableConfiguration.
+                let orderType = OrderDetailTableConfiguration(orderType: .new)
+                destination.configure(tableConfiguration: orderType, order: order)
+            }
         }
     }
 }
@@ -55,14 +61,12 @@ extension SoupMenuViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SoupMenuItemDetailCell.reuseIdentifier,
-                                                       for: indexPath) as? SoupMenuItemDetailCell else {
-                                                        os_log("Failed to downcast UITableViewCell as SoupMenuItemDetailCell. Check Main.storyboard.")
-                                                        return UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: SoupMenuViewController.cellReuseIdentifier, for: indexPath)
         let menuItem = menuItems[indexPath.row]
-        cell.detailView.imageView.image = UIImage(named: menuItem.iconImageName)
-        cell.detailView.titleLabel.text = menuItems[indexPath.row].localizedString
+        cell.imageView?.image = UIImage(named: menuItem.iconImageName)
+        cell.imageView?.applyRoundedCorners()
+        cell.textLabel?.text = menuItems[indexPath.row].itemName
+        cell.textLabel?.numberOfLines = 0
         return cell
     }
 }

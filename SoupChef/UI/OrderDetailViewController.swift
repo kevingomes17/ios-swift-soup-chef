@@ -12,12 +12,6 @@ import SoupKit
 import os.log
 import IntentsUI
 
-class QuantityCell: UITableViewCell {
-    static let reuseIdentifier = "Quantity Cell"
-    @IBOutlet weak var quantityLabel: UILabel!
-    @IBOutlet weak var stepper: UIStepper!
-}
-
 class OrderDetailViewController: UITableViewController {
     
     private(set) var order: Order!
@@ -30,11 +24,11 @@ class OrderDetailViewController: UITableViewController {
     
     private var optionMap: [String: String] = [:]
     
-    private var voiceShortcutDataManager: VoiceShortcutDataManager?
-    
     @IBOutlet var tableViewHeader: UIView!
+    @IBOutlet weak var headerImageView: UIImageView!
+    @IBOutlet weak var headerLabel: UILabel!
     
-    @IBOutlet weak var soupDetailView: MenuItemView!
+    @IBOutlet var tableFooterView: UIView!
     
     // MARK: - Setup Order Detail View Controller
     
@@ -44,23 +38,40 @@ class OrderDetailViewController: UITableViewController {
             navigationItem.rightBarButtonItem = nil
         }
         configureTableViewHeader()
+        configureTableFooterView()
     }
     
     private func configureTableViewHeader() {
-        soupDetailView.imageView.image = UIImage(named: order.menuItem.iconImageName)
-        soupDetailView.titleLabel.text = order.menuItem.localizedString
+        headerImageView.image = UIImage(named: order.menuItem.iconImageName)
+        headerImageView.applyRoundedCorners()
+        headerLabel.text = order.menuItem.itemName
         tableView.tableHeaderView = tableViewHeader
     }
     
-    public func configure(tableConfiguration: OrderDetailTableConfiguration, order: Order, voiceShortcutDateManager: VoiceShortcutDataManager?) {
+    /// - Tag: add_to_siri_button
+    private func configureTableFooterView() {
+        if tableConfiguration.orderType == .historical {
+            let addShortcutButton = INUIAddVoiceShortcutButton(style: .whiteOutline)
+            addShortcutButton.shortcut = INShortcut(intent: order.intent)
+            addShortcutButton.delegate = self
+            
+            addShortcutButton.translatesAutoresizingMaskIntoConstraints = false
+            tableFooterView.addSubview(addShortcutButton)
+            tableFooterView.centerXAnchor.constraint(equalTo: addShortcutButton.centerXAnchor).isActive = true
+            tableFooterView.centerYAnchor.constraint(equalTo: addShortcutButton.centerYAnchor).isActive = true
+            
+            tableView.tableFooterView = tableFooterView
+        }
+    }
+    
+    func configure(tableConfiguration: OrderDetailTableConfiguration, order: Order) {
         self.tableConfiguration = tableConfiguration
         self.order = order
-        self.voiceShortcutDataManager = voiceShortcutDateManager
     }
     
     // MARK: - Target Action
     
-    @IBAction func placeOrder(_ sender: UIBarButtonItem) {
+    @IBAction private func placeOrder(_ sender: UIBarButtonItem) {
         if order.quantity == 0 {
             os_log("Quantity must be greater than 0 to add to order")
             return
@@ -68,24 +79,14 @@ class OrderDetailViewController: UITableViewController {
         performSegue(withIdentifier: "Place Order Segue", sender: self)
     }
     
-    @IBAction func stepperDidChange(_ sender: UIStepper) {
+    @IBAction private func stepperDidChange(_ sender: UIStepper) {
         order.quantity = Int(sender.value)
         quantityLabel?.text = "\(order.quantity)"
         updateTotalLabel()
     }
     
     private func updateTotalLabel() {
-        totalLabel?.text = NumberFormatter.currencyFormatter.string(from: (order.total as NSDecimalNumber))
-    }
-    
-    func updateVoiceShortcuts() {
-        voiceShortcutDataManager?.updateVoiceShortcuts { [weak self] in
-            let indexPath = IndexPath(row: 0, section: 3)
-            DispatchQueue.main.async {
-                self?.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        }
-        dismiss(animated: true, completion: nil)
+        totalLabel?.text = order.localizedCurrencyValue
     }
 }
 
@@ -118,7 +119,7 @@ extension OrderDetailViewController {
         case .price:
             cell.textLabel?.text = NumberFormatter.currencyFormatter.string(from: (order.menuItem.price as NSDecimalNumber))
         case .quantity:
-            if let cell = cell as? QuantityCell {
+            if let cell = cell as? QuantityTableViewCell {
                 if tableConfiguration.orderType == .new {
                     // Save a weak reference to the quantityLabel for quick udpates, later.
                     quantityLabel = cell.quantityLabel
@@ -134,26 +135,17 @@ extension OrderDetailViewController {
              later when an option is selected in the table view.
              */
             let option = Order.MenuItemOption.all[indexPath.row]
-            let localizedValue = option.localizedString.capitalized
+            let localizedValue = option.rawValue
             optionMap[localizedValue] = option.rawValue
             
             cell.textLabel?.text = localizedValue
+            cell.accessoryType = order.menuItemOptions.contains(option) ? .checkmark : .none
             
-            if tableConfiguration.orderType == .historical {
-                cell.accessoryType = order.menuItemOptions.contains(option) ? .checkmark : .none
-            }
         case .total:
             //  Save a weak reference to the totalLabel for making quick updates later.
             totalLabel = cell.textLabel
             
             updateTotalLabel()
-        case .voiceShortcut:
-            cell.textLabel?.textColor = tableView.tintColor
-            if let shortcut = voiceShortcutDataManager?.voiceShortcut(for: order) {
-                cell.textLabel?.text = "“\(shortcut.invocationPhrase)”"
-            } else {
-                cell.textLabel?.text = "Add to Siri"
-            }
         }
     }
 }
@@ -162,7 +154,6 @@ extension OrderDetailViewController {
     
     // MARK: - Table view delegate
 
-    /// - Tag: add_edit_phrases
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableConfiguration.sections[indexPath.section].type == .options && tableConfiguration.orderType == .new {
             
@@ -178,63 +169,64 @@ extension OrderDetailViewController {
                 order.menuItemOptions.insert(option)
                 cell.accessoryType = .checkmark
             }
-        } else if tableConfiguration.sections[indexPath.section].type == .voiceShortcut {
-            if let shortcut = voiceShortcutDataManager?.voiceShortcut(for: order) {
-                let editVoiceShortcutViewController = INUIEditVoiceShortcutViewController(voiceShortcut: shortcut)
-                
-                editVoiceShortcutViewController.delegate = self
-                present(editVoiceShortcutViewController, animated: true, completion: nil)
-            } else {
-                // Since the app isn't yet managing a voice shortcut for this order, present the add view controller.
-                if let shortcut = INShortcut(intent: order.intent) {
-                    let addVoiceShortcutVC = INUIAddVoiceShortcutViewController(shortcut: shortcut)
-                    addVoiceShortcutVC.delegate = self
-                    present(addVoiceShortcutVC, animated: true, completion: nil)
-                }
-            }
         }
+    }
+}
+
+extension OrderDetailViewController: INUIAddVoiceShortcutButtonDelegate {
+    
+    func present(_ addVoiceShortcutViewController: INUIAddVoiceShortcutViewController, for addVoiceShortcutButton: INUIAddVoiceShortcutButton) {
+        addVoiceShortcutViewController.delegate = self
+        present(addVoiceShortcutViewController, animated: true, completion: nil)
+    }
+    
+    /// - Tag: edit_phrase
+    func present(_ editVoiceShortcutViewController: INUIEditVoiceShortcutViewController, for addVoiceShortcutButton: INUIAddVoiceShortcutButton) {
+        editVoiceShortcutViewController.delegate = self
+        present(editVoiceShortcutViewController, animated: true, completion: nil)
     }
 }
 
 extension OrderDetailViewController: INUIAddVoiceShortcutViewControllerDelegate {
     
-    // MARK: - INUIAddVoiceShortcutViewControllerDelegate
-    
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController,
                                         didFinishWith voiceShortcut: INVoiceShortcut?,
                                         error: Error?) {
         if let error = error as NSError? {
-            os_log("error adding voice shortcut: %@", log: OSLog.default, type: .error, error)
-            return
+            os_log("Error adding voice shortcut: %@", log: OSLog.default, type: .error, error)
         }
-        updateVoiceShortcuts()
+        
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
-        dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
 extension OrderDetailViewController: INUIEditVoiceShortcutViewControllerDelegate {
     
-    // MARK: - INUIEditVoiceShortcutViewControllerDelegate
-    
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController,
                                          didUpdate voiceShortcut: INVoiceShortcut?,
                                          error: Error?) {
         if let error = error as NSError? {
-            os_log("error adding voice shortcut: %@", log: OSLog.default, type: .error, error)
-            return
+            os_log("Error adding voice shortcut: %@", log: OSLog.default, type: .error, error)
         }
-        updateVoiceShortcuts()
+        
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController,
                                          didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
-        updateVoiceShortcuts()
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
-        dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
+}
+
+class QuantityTableViewCell: UITableViewCell {
+    @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var stepper: UIStepper!
 }

@@ -8,22 +8,7 @@ Create a custom user interface that shows in the Siri interface, as well as with
 import IntentsUI
 import SoupKit
 
-class IntentViewController: UIViewController {
-    
-    private let menuManager = SoupMenuManager()
-    
-    @IBOutlet weak var invoiceView: InvoiceView!
-    @IBOutlet weak var confirmationView: ConfirmOrderView!
-    
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var itemNameLabel: UILabel!
-    @IBOutlet weak var unitPriceLabel: UILabel!
-    @IBOutlet weak var optionsLabel: UILabel!
-    @IBOutlet weak var totalPriceLabel: UILabel!
-    
-}
-
-extension IntentViewController: INUIHostedViewControlling {
+class IntentViewController: UIViewController, INUIHostedViewControlling {
     
     /// Prepare your view controller for displaying the details of the soup order.
     func configureView(for parameters: Set<INParameter>,
@@ -32,76 +17,50 @@ extension IntentViewController: INUIHostedViewControlling {
                        context: INUIHostedViewContext,
                        completion: @escaping (Bool, Set<INParameter>, CGSize) -> Void) {
         
-        guard let intent = interaction.intent as? OrderSoupIntent,
-            let order = Order(from: intent)
-        else {
+        guard let intent = interaction.intent as? OrderSoupIntent else {
             completion(false, Set(), .zero)
             return
         }
         
-        for view in view.subviews {
-            view.removeFromSuperview()
-        }
-        
-        // Different UIs can be displayed depending if the intent is in the confirmation phase or the handle phase.
-        var desiredSize = CGSize.zero
+        /*
+         Different UIs can be displayed depending if the intent is in the confirmation phase or the handle phase.
+         This example uses view controller containment to manage each of the different views via a dedicated view controller.
+        */
         if interaction.intentHandlingStatus == .ready {
-            desiredSize = displayInvoice(for: order, from: intent)
+            let viewController = InvoiceViewController(for: intent)
+            attachChild(viewController)
+            completion(true, parameters, desiredSize)
         } else if interaction.intentHandlingStatus == .success {
             if let response = interaction.intentResponse as? OrderSoupIntentResponse {
-                desiredSize = displayOrderConfirmation(for: order, from: intent, with: response)
+                let viewController = OrderConfirmedViewController(for: intent, with: response)
+                attachChild(viewController)
+                completion(true, parameters, desiredSize)
             }
         }
-        completion(true, parameters, desiredSize)
+        
+        completion(false, parameters, .zero)
     }
     
-    /// - Returns: Desired size of the view
-    private func displayInvoice(for order: Order, from intent: OrderSoupIntent) -> CGSize {
-        invoiceView.itemNameLabel.text = order.menuItem.localizedString
-        invoiceView.totalPriceLabel.text = order.localizedCurrencyValue
-        invoiceView.unitPriceLabel.text = "\(order.quantity) @ \(order.menuItem.localizedCurrencyValue)"
-        
-        let intentImage = intent.image(forParameterNamed: "soup")
-        intentImage?.fetchUIImage { [weak self] (image) in
-            DispatchQueue.main.async {
-                self?.invoiceView.imageView.image = image
-            }
-        }
-        
-        let optionText = intent.options != nil ? order.localizedOptionString : ""
-        invoiceView.optionsLabel.text = optionText
-        
-        view.addSubview(invoiceView)
-        
+    private var desiredSize: CGSize {
         let width = self.extensionContext?.hostedViewMaximumAllowedSize.width ?? 320
-        let frame = CGRect(origin: .zero, size: CGSize(width: width, height: 170))
-        invoiceView.frame = frame
-        
-        return frame.size
+        return CGSize(width: width, height: 170)
     }
     
-    /// - Returns: Desired size of the view
-    private func displayOrderConfirmation(for order: Order, from intent: OrderSoupIntent, with response: OrderSoupIntentResponse) -> CGSize {
-        confirmationView.itemNameLabel.text = order.menuItem.localizedString
-        confirmationView.totalPriceLabel.text = order.localizedCurrencyValue
-        confirmationView.imageView.layer.cornerRadius = 8
-        if let waitTime = response.waitTime {
-            confirmationView.timeLabel.text = "\(waitTime) Minutes"
-        }
-
-        let intentImage = intent.image(forParameterNamed: "soup")
-        intentImage?.fetchUIImage { [weak self] (image) in
-            DispatchQueue.main.async {
-                self?.invoiceView.imageView.image = image
-            }
-        }
-
-        view.addSubview(confirmationView)
+    private func attachChild(_ viewController: UIViewController) {
+        addChild(viewController)
         
-        let width = self.extensionContext?.hostedViewMaximumAllowedSize.width ?? 320
-        let frame = CGRect(origin: .zero, size: CGSize(width: width, height: 170))
-        confirmationView.frame = frame
+        if let subview = viewController.view {
+            view.addSubview(subview)
+            subview.translatesAutoresizingMaskIntoConstraints = false
+
+            // Set the child controller's view to be the exact same size as the parent controller's view.
+            subview.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            subview.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+
+            subview.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            subview.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        }
         
-        return frame.size
+        viewController.didMove(toParent: self)
     }
 }

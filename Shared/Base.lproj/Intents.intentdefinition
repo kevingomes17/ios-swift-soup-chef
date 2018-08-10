@@ -7,9 +7,9 @@
 	<key>INIntentDefinitionModelVersion</key>
 	<string>1.0</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>17E202</string>
+	<string>17F77</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>10N176a</string>
+	<string>10L177m</string>
 	<key>INIntentDefinitionToolsVersion</key>
 	<string>10.0</string>
 	<key>INIntents</key>
@@ -17,8 +17,10 @@
 		<dict>
 			<key>INIntentCategory</key>
 			<string>order</string>
+			<key>INIntentDefaultImageName</key>
+			<string>chicken_noodle_soup</string>
 			<key>INIntentDescription</key>
-			<string>Order some soup</string>
+			<string>Order a soup</string>
 			<key>INIntentDescriptionID</key>
 			<string>ljYqT3</string>
 			<key>INIntentLastParameterTag</key>
@@ -47,13 +49,13 @@
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
+					<string>With ${options}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>KzUhFB</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Order ${soup} with ${options}</string>
+					<string>Order ${soup} </string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>ChAaCn</string>
 				</dict>
@@ -62,13 +64,13 @@
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<true/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
+					<string>With ${options}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>JHrqyM</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Order ${quantity} ${soup} with ${options}</string>
+					<string>Order ${quantity} ${soup}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>whh3pV</string>
 				</dict>
@@ -143,7 +145,7 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>Your ${soup} order will be ready in ${waitTime} minutes</string>
+						<string>Your ${soup} order will be ready in ${waitTime}.</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>xgap7o</string>
 						<key>INIntentResponseCodeName</key>
@@ -153,17 +155,27 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>Sorry, we're all out of ${soup}</string>
+						<string>Sorry, ${soup} is out of stock.</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>t02HyZ</string>
 						<key>INIntentResponseCodeName</key>
-						<string>failureSoupUnavailable</string>
+						<string>failureOutOfStock</string>
 						<key>INIntentResponseCodeSuccess</key>
 						<false/>
 					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Your ${soup} will be ready soon.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>8CH3g7</string>
+						<key>INIntentResponseCodeName</key>
+						<string>successReadySoon</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>6</integer>
+				<integer>7</integer>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
@@ -186,9 +198,9 @@
 						<key>INIntentResponseParameterSupportsMultipleValues</key>
 						<false/>
 						<key>INIntentResponseParameterTag</key>
-						<integer>6</integer>
+						<integer>7</integer>
 						<key>INIntentResponseParameterType</key>
-						<string>Decimal</string>
+						<string>String</string>
 					</dict>
 				</array>
 			</dict>
