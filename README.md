@@ -40,7 +40,7 @@ Soup Chef uses the three parameters to define the different shortcut types. A sh
 
 These types define the schema that Siri uses to identify requests the user makes; for example, “Order tomato soup with cheese.” The parameter combination for this example is: `soup` and `options`.
 
-Soup Chef marks each shortcut types with Supports background execution; this way, the system doesn’t need to open the app to handle the intent. When marked this way, the system uses Soup Chef’s intent app extension to handle the order. This provides a better user experience because the user never leaves their current screen.
+Soup Chef marks each shortcut type with *Supports background execution*; this way, the system doesn’t need to open the app to handle the intent. When marked this way, the system uses Soup Chef’s intent app extension to handle the order. This provides a better user experience because the user never leaves their current screen.
 
 ## Custom Response
 

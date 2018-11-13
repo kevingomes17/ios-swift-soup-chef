@@ -7,4 +7,5 @@
 
 # Xcode - User files
 xcuserdata/
-*.xcworkspace
+**/*.xcodeproj/project.xcworkspace
+**/*.playground/playground.xcworkspace
