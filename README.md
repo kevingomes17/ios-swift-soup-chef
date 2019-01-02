@@ -86,8 +86,6 @@ private func donateInteraction(for order: Order) {
 ```
 [View in Source](x-source-tag://donate_order)
 
-- Note: Don’t donate intents handled by your Intent App Extension. Siri already knows about those intents and will consider them when predicting suggestions in the future.
-
 ## Handle Shortcuts
 
 As mentioned earlier, to handle a order soup intent, Soup Chef provides an Intent App Extension, which handles the intent in the background. This makes it possible for the user to remain on the current screen--such as the Lock Screen--while Soup Chef places the order in the background.
