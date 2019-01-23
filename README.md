@@ -13,6 +13,8 @@ Before you can run Soup Chef on your iPhone, you need to:
 1. Set the app group name for the SoupChef, SoupChefIntents, SoupChefWatch Extension, and SoupChefIntentsWatch targets to a valid name. For more information on app groups, see [Configure app groups](https://help.apple.com/xcode/mac/current/#/dev8dd3880fe).
 2. Change `AppGroup` value in [`UserDefaults+DataSource.swift`](x-source-tag://app_group) to match your app group name.
 
+> Note: This sample does not build in Xcode 10.2 beta 1. To use this sample, please use a different version of Xcode.
+
 ## Project Structure
 
 The Soup Chef project contains targets for the iPhone app and an Intent App Extension, which the system uses to handle shortcuts that run in the background. To avoid duplicating code that is common across the two targets, the project includes a shared framework called SoupKit. This framework provides a central location for shared code responsible for tasks such as data management and donating shortcuts.
