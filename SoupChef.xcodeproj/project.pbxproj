@@ -281,6 +281,8 @@
 		606C6DE82076EF09009F09CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60C80CC820E3737A00270927 /* Order+Intents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Order+Intents.swift"; sourceTree = "<group>"; };
 		60EA6D8820782A9300249FFB /* SoupChef.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoupChef.entitlements; sourceTree = "<group>"; };
+		78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		7D8738507D8AA49000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
 		D7115421209A48A1005588F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D7115423209A805C005588F4 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		D7115427209A808A005588F4 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -298,8 +300,6 @@
 		D7924F8320A2380600D89872 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
 		D7E9911C20AD2DEB00594EDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D7E9911E20AD2E1F00594EDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		E8FD4870E8FD070000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -490,8 +490,8 @@
 				2981E7A120AABB62003259CF /* Supporting Targets */,
 				606C6DDF2076EF08009F09CA /* Frameworks */,
 				606C6DBB2076EEE8009F09CA /* Products */,
-				E6FA7400E6FA72D000000001 /* Configuration */,
-				E8B05830E8B07E4000000001 /* LICENSE */,
+				78EBF79078EBF5B000000001 /* Configuration */,
+				7D8761007D8760C000000001 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -551,6 +551,23 @@
 			path = SoupChefIntentsUI;
 			sourceTree = "<group>";
 		};
+		78EBF79078EBF5B000000001 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */,
+			);
+			name = Configuration;
+			sourceTree = "<group>";
+		};
+		7D8761007D8760C000000001 /* LICENSE */ = {
+			isa = PBXGroup;
+			children = (
+				7D8738507D8AA49000000001 /* LICENSE.txt */,
+			);
+			name = LICENSE;
+			path = LICENSE;
+			sourceTree = "<group>";
+		};
 		D76D4D4720A8072A005ADCF5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,23 +578,6 @@
 				D76D4D4220A80725005ADCF5 /* SoupOrderDataManager.swift */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		E6FA7400E6FA72D000000001 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */,
-			);
-			name = Configuration;
-			sourceTree = "<group>";
-		};
-		E8B05830E8B07E4000000001 /* LICENSE */ = {
-			isa = PBXGroup;
-			children = (
-				E8FD4870E8FD070000000001 /* LICENSE.txt */,
-			);
-			name = LICENSE;
-			path = LICENSE;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1145,7 +1145,7 @@
 /* Begin XCBuildConfiguration section */
 		292B745B20A94BF40038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1176,7 +1176,7 @@
 		};
 		292B745C20A94BF40038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1206,7 +1206,7 @@
 		};
 		292B74A220A94C1B0038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefWatch Extension/SoupChefWatch Extension.entitlements";
@@ -1231,7 +1231,7 @@
 		};
 		292B74A320A94C1B0038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefWatch Extension/SoupChefWatch Extension.entitlements";
@@ -1255,7 +1255,7 @@
 		};
 		292B74A620A94C1B0038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1276,7 +1276,7 @@
 		};
 		292B74A720A94C1B0038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1296,7 +1296,7 @@
 		};
 		292B74B720A94C230038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1329,7 +1329,7 @@
 		};
 		292B74B820A94C230038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1361,7 +1361,7 @@
 		};
 		292B74C720A94C450038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntentsWatch/SoupChefIntentsWatch.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1386,7 +1386,7 @@
 		};
 		292B74C820A94C450038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntentsWatch/SoupChefIntentsWatch.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1410,7 +1410,7 @@
 		};
 		606C6DCC2076EEE9009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1472,7 +1472,7 @@
 		};
 		606C6DCD2076EEE9009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1528,7 +1528,7 @@
 		};
 		606C6DCF2076EEE9009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1549,7 +1549,7 @@
 		};
 		606C6DD02076EEE9009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1570,7 +1570,7 @@
 		};
 		606C6DF02076EF09009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -1590,7 +1590,7 @@
 		};
 		606C6DF12076EF09009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -1610,7 +1610,7 @@
 		};
 		606C6DF32076EF09009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntents/SoupChefIntents.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1631,7 +1631,7 @@
 		};
 		606C6DF42076EF09009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FA6E10E6FA47B000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntents/SoupChefIntents.entitlements";
 				CODE_SIGN_STYLE = Automatic;
