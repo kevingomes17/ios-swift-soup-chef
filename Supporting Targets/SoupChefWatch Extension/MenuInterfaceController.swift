@@ -52,7 +52,7 @@ class MenuInterfaceController: WKInterfaceController {
         guard segueIdentifier == MenuInterfaceController.confirmOrderSegue else { return nil }
         
         let menuItem = tableData[rowIndex]
-        let newOrder = Order(quantity: 1, menuItem: menuItem, menuItemOptions: [])
+        let newOrder = Order(quantity: 1, menuItem: menuItem, menuItemToppings: [])
         return newOrder
     }
 }

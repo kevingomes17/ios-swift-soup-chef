@@ -31,19 +31,25 @@ class InvoiceViewController: UIViewController {
             invoiceView.imageView.applyRoundedCorners()
             invoiceView.totalPriceLabel.text = order.localizedCurrencyValue
             invoiceView.unitPriceLabel.text = "\(order.quantity) @ \(order.menuItem.localizedCurrencyValue)"
-            
-            let intentImage = intent.image(forParameterNamed: \OrderSoupIntent.soup)
-            intentImage?.fetchUIImage { [weak self] (image) in
-                DispatchQueue.main.async {
-                    self?.invoiceView.imageView.image = image
+            invoiceView.imageView.image = UIImage(named: order.menuItem.iconImageName)
+            switch order.orderType {
+            case .unknown:
+                invoiceView.infoLabel.text = ""
+            case .delivery:
+                if let deliveryLocation = order.deliveryLocation, let name = deliveryLocation.name {
+                    invoiceView.infoLabel.text = "Deliver to \(name)"
+                }
+            case .pickup:
+                if let storeLocation = order.storeLocation, let name = storeLocation.name {
+                    invoiceView.infoLabel.text = "Pickup from \(name)"
                 }
             }
             
-            let flattenedOptions = order.menuItemOptions.map { (option) -> String in
-                return option.rawValue
+            let flattenedToppings = order.menuItemToppings.map { (topping) -> String in
+                return topping.rawValue
             }.joined(separator: ", ")
             
-            invoiceView.optionsLabel.text = flattenedOptions
+            invoiceView.toppingsLabel.text = flattenedToppings
         }
     }
 }
@@ -53,6 +59,7 @@ class InvoiceView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var unitPriceLabel: UILabel!
-    @IBOutlet weak var optionsLabel: UILabel!
+    @IBOutlet weak var toppingsLabel: UILabel!
     @IBOutlet weak var totalPriceLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
 }

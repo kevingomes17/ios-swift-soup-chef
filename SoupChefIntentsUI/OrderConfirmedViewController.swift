@@ -34,14 +34,20 @@ class OrderConfirmedViewController: UIViewController {
         if let order = Order(from: intent) {
             confirmationView.itemNameLabel.text = order.menuItem.itemName
             confirmationView.imageView.applyRoundedCorners()
-            if let waitTime = intentResponse.waitTime {
-                confirmationView.timeLabel.text = waitTime
+            if let orderDetails = intentResponse.orderDetails {
+                confirmationView.timeLabel.text = orderDetails.displayString
             }
-            
-            let intentImage = intent.image(forParameterNamed: \OrderSoupIntent.soup)
-            intentImage?.fetchUIImage { [weak self] (image) in
-                DispatchQueue.main.async {
-                    self?.confirmationView.imageView.image = image
+            confirmationView.imageView.image = UIImage(named: order.menuItem.iconImageName)
+            switch order.orderType {
+            case .unknown:
+                confirmationView.infoLabel.text = ""
+            case .delivery:
+                if let deliveryLocation = order.deliveryLocation, let name = deliveryLocation.name {
+                    confirmationView.infoLabel.text = "Deliver to \(name)"
+                }
+            case .pickup:
+                if let storeLocation = order.storeLocation, let name = storeLocation.name {
+                    confirmationView.infoLabel.text = "Pickup from \(name)"
                 }
             }
         }
@@ -53,4 +59,5 @@ class OrderConfirmedView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
 }

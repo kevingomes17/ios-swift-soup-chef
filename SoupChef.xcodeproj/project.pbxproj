@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18038DF7227F583900473D42 /* Intents.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 18038DF6227F583900473D42 /* Intents.stringsdict */; };
+		18038DF8227F58FC00473D42 /* Intents.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 18038DF6227F583900473D42 /* Intents.stringsdict */; };
+		18038DFB227F590000473D42 /* Intents.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 18038DF6227F583900473D42 /* Intents.stringsdict */; };
+		181546BC22662FA10070A877 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6041F8C220F96CAC00AFC5D2 /* Localizable.strings */; };
+		1848ECF222761A6800C4D680 /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 294C6C3C20AE255A002A46C4 /* SharedAssets.xcassets */; };
 		292B745520A94BF40038A692 /* SoupKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 292B745320A94BF40038A692 /* SoupKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		292B745820A94BF40038A692 /* SoupKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292B745120A94BF40038A692 /* SoupKit.framework */; };
 		292B745920A94BF40038A692 /* SoupKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 292B745120A94BF40038A692 /* SoupKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -232,6 +237,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		18038DF6227F583900473D42 /* Intents.stringsdict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.stringsdict; path = Intents.stringsdict; sourceTree = "<group>"; };
 		291CEC0420A9F474003FE156 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		292B745120A94BF40038A692 /* SoupKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SoupKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		292B745320A94BF40038A692 /* SoupKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoupKit.h; sourceTree = "<group>"; };
@@ -281,8 +287,8 @@
 		606C6DE82076EF09009F09CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60C80CC820E3737A00270927 /* Order+Intents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Order+Intents.swift"; sourceTree = "<group>"; };
 		60EA6D8820782A9300249FFB /* SoupChef.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoupChef.entitlements; sourceTree = "<group>"; };
-		78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		7D8738507D8AA49000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
+		77EE283077EE944000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
+		79E2F19079E3376000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		D7115421209A48A1005588F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D7115423209A805C005588F4 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		D7115427209A808A005588F4 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -459,6 +465,7 @@
 				6041F8C420F96CAC00AFC5D2 /* Localizable.stringsdict */,
 				D76D4D4720A8072A005ADCF5 /* Data */,
 				298308C120B0F309006FDD95 /* Intents.intentdefinition */,
+				18038DF6227F583900473D42 /* Intents.stringsdict */,
 				60C80CC820E3737A00270927 /* Order+Intents.swift */,
 				D720B87320AA734200FCFD81 /* OrderSoupIntentHandler.swift */,
 				6029C1B820D9CFFE003CA478 /* SoupMenuManager+Intents.swift */,
@@ -490,8 +497,8 @@
 				2981E7A120AABB62003259CF /* Supporting Targets */,
 				606C6DDF2076EF08009F09CA /* Frameworks */,
 				606C6DBB2076EEE8009F09CA /* Products */,
-				78EBF79078EBF5B000000001 /* Configuration */,
-				7D8761007D8760C000000001 /* LICENSE */,
+				79E373A079E3031000000001 /* Configuration */,
+				77EE20E077EE73A000000001 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -551,21 +558,21 @@
 			path = SoupChefIntentsUI;
 			sourceTree = "<group>";
 		};
-		78EBF79078EBF5B000000001 /* Configuration */ = {
+		77EE20E077EE73A000000001 /* LICENSE */ = {
 			isa = PBXGroup;
 			children = (
-				78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */,
-			);
-			name = Configuration;
-			sourceTree = "<group>";
-		};
-		7D8761007D8760C000000001 /* LICENSE */ = {
-			isa = PBXGroup;
-			children = (
-				7D8738507D8AA49000000001 /* LICENSE.txt */,
+				77EE283077EE944000000001 /* LICENSE.txt */,
 			);
 			name = LICENSE;
 			path = LICENSE;
+			sourceTree = "<group>";
+		};
+		79E373A079E3031000000001 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				79E2F19079E3376000000001 /* SampleCode.xcconfig */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 		D76D4D4720A8072A005ADCF5 /* Data */ = {
@@ -775,12 +782,14 @@
 				TargetAttributes = {
 					292B745020A94BF40038A692 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 					};
 					292B748520A94C190038A692 = {
 						CreatedOnToolsVersion = 10.0;
 					};
 					292B749120A94C1A0038A692 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -789,9 +798,11 @@
 					};
 					292B74AC20A94C230038A692 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 					};
 					292B74BD20A94C450038A692 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -800,6 +811,7 @@
 					};
 					606C6DB92076EEE8009F09CA = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1100;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -811,6 +823,7 @@
 					};
 					606C6DD42076EF08009F09CA = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1100;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -819,6 +832,7 @@
 					};
 					606C6DDD2076EF08009F09CA = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -887,6 +901,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18038DFB227F590000473D42 /* Intents.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,6 +910,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6029C1B720D9CAEE003CA478 /* SharedAssets.xcassets in Resources */,
+				18038DF7227F583900473D42 /* Intents.stringsdict in Resources */,
 				6041F8C820F96CAC00AFC5D2 /* Localizable.stringsdict in Resources */,
 				6041F8C620F96CAC00AFC5D2 /* Localizable.strings in Resources */,
 				D7E9911D20AD2DEB00594EDF /* Assets.xcassets in Resources */,
@@ -905,6 +921,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18038DF8227F58FC00473D42 /* Intents.stringsdict in Resources */,
+				181546BC22662FA10070A877 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,6 +930,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1848ECF222761A6800C4D680 /* SharedAssets.xcassets in Resources */,
 				6052023620D9C4EA000C1972 /* InvoiceView.xib in Resources */,
 				6052023720D9C4EA000C1972 /* OrderConfirmedView.xib in Resources */,
 			);
@@ -1145,7 +1164,7 @@
 /* Begin XCBuildConfiguration section */
 		292B745B20A94BF40038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1158,6 +1177,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Supporting Targets/SoupKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1168,6 +1188,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1176,7 +1197,7 @@
 		};
 		292B745C20A94BF40038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1189,6 +1210,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Supporting Targets/SoupKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1198,6 +1220,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1206,7 +1229,7 @@
 		};
 		292B74A220A94C1B0038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefWatch Extension/SoupChefWatch Extension.entitlements";
@@ -1224,14 +1247,15 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
 		292B74A320A94C1B0038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefWatch Extension/SoupChefWatch Extension.entitlements";
@@ -1248,14 +1272,15 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
 		292B74A620A94C1B0038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1270,13 +1295,13 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
 		292B74A720A94C1B0038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1290,13 +1315,13 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
 		292B74B720A94C230038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1320,16 +1345,17 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
 		292B74B820A94C230038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1352,16 +1378,17 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
 		292B74C720A94C450038A692 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntentsWatch/SoupChefIntentsWatch.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1379,14 +1406,15 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
 		292B74C820A94C450038A692 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntentsWatch/SoupChefIntentsWatch.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -1403,14 +1431,15 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
 		606C6DCC2076EEE9009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1472,7 +1501,7 @@
 		};
 		606C6DCD2076EEE9009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1528,7 +1557,7 @@
 		};
 		606C6DCF2076EEE9009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1536,6 +1565,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SoupChef/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1543,13 +1573,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SoupChef${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		606C6DD02076EEE9009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1557,6 +1588,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SoupChef/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1564,17 +1596,19 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SoupChef${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		606C6DF02076EF09009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SoupChefIntentsUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1584,17 +1618,19 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		606C6DF12076EF09009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SoupChefIntentsUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1604,18 +1640,20 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		606C6DF32076EF09009F09CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntents/SoupChefIntents.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Supporting Targets/SoupChefIntents/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1625,18 +1663,20 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		606C6DF42076EF09009F09CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78EDA1C078EDA2C000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 79E2F19079E3376000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Supporting Targets/SoupChefIntents/SoupChefIntents.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Supporting Targets/SoupChefIntents/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1646,6 +1686,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

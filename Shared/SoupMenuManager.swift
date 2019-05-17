@@ -6,7 +6,6 @@ A DataManager subclass that persists the active menu items.
 */
 
 import Foundation
-import Intents
 import os.log
 
 public typealias SoupMenu = Set<MenuItem>
@@ -14,22 +13,28 @@ public typealias SoupMenu = Set<MenuItem>
 public class SoupMenuManager: DataManager<Set<MenuItem>> {
     
     private static let defaultMenu: SoupMenu = [
-        MenuItem(itemName: "Chicken Noodle Soup",
+        MenuItem(item: .chickenNoodleSoup,
+                 itemName: "Chicken Noodle Soup",
                  shortcutNameKey: "CHICKEN_NOODLE_SOUP",
                  price: 4.55, iconImageName: "chicken_noodle_soup",
                  isAvailable: true,
+                 itemsInStock: 5,
                  isDailySpecial: true),
-        MenuItem(itemName: "Clam Chowder",
+        MenuItem(item: .clamChowder,
+                 itemName: "Clam Chowder",
                  shortcutNameKey: "CLAM_CHOWDER",
                  price: 3.75,
                  iconImageName: "clam_chowder",
                  isAvailable: true,
+                 itemsInStock: 7,
                  isDailySpecial: false),
-        MenuItem(itemName: "Tomato Soup",
+        MenuItem(item: .tomatoSoup,
+                 itemName: "Tomato Soup",
                  shortcutNameKey: "TOMATO_SOUP",
                  price: 2.95,
                  iconImageName: "tomato_soup",
                  isAvailable: true,
+                 itemsInStock: 4,
                  isDailySpecial: false)
     ]
     
@@ -96,9 +101,9 @@ extension SoupMenuManager {
         updateShortcuts()
     }
     
-    public func findItem(identifier: String) -> MenuItem? {
+    public func findItem(soup: Soup) -> MenuItem? {
         return dataAccessQueue.sync {
-            return managedData.first { $0.itemName == identifier }
+            return managedData.first { $0.item == soup }
         }
     }
 }

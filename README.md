@@ -30,26 +30,26 @@ You define a custom intent by first adding an *Intent Definition* file to your X
 
 - `soup`: The type of soup.
 - `quantity`: The number of bowls of soup.
-- `options`: Optionals toppings--such as cheese or croutons--to add to the soup.
+- `toppings`: Optionals toppings--such as cheese or croutons--to add to the soup.
 
 Soup Chef uses the three parameters to define the different shortcut types. A shortcut type has a title, subtitle, and a set of parameter combinations such as:
 
 - `soup` and `quantity`
-- `soup` and `options`
-- `soup`, `options`, and `quantity`
+- `soup` and `toppings`
+- `soup`, `toppings`, and `quantity`
 
-These types define the schema that Siri uses to identify requests the user makes; for example, “Order tomato soup with cheese.” The parameter combination for this example is: `soup` and `options`.
+These types define the schema that Siri uses to identify requests the user makes; for example, “Order tomato soup with cheese.” The parameter combination for this example is: `soup` and `toppings`.
 
 Soup Chef marks each shortcut type with *Supports background execution*; this way, the system doesn’t need to open the app to handle the intent. When marked this way, the system uses Soup Chef’s intent app extension to handle the order. This provides a better user experience because the user never leaves their current screen.
 
 ## Custom Response
 
-The `OrderSoup` intent includes a set of custom responses that Siri shows to the user. Siri selects the response based on a code returned by intent extension when it confirms or handles the intent. For example, if the user orders a cup of chili and chili isn’t on the menu that day, the extension returns the `failureSoupUnavailable` code. Siri then responds to the user with “Sorry, we’re all out of chili.”
+The `OrderSoup` intent includes a set of custom responses that Siri shows to the user. Siri selects the response based on a code returned by intent extension when it confirms or handles the intent. For example, if the user orders a cup of chili and chili isn’t on the menu that day, the extension returns the `failureOutOfStock` code. Siri then responds to the user with “Sorry, we’re all out of chili.”
 
 ``` swift
 if menuItem.isAvailable == false {
     //  Here's an example of how to use a custom response for a failure case when a particular soup item is unavailable.
-    completion(OrderSoupIntentResponse.failureOutOfStock(soup: soup))
+    completion(OrderSoupIntentResponse.failureOutOfStock(soup: intent.soup))
     return
 }
 ```

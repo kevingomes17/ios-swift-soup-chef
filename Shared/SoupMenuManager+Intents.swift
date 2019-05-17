@@ -24,7 +24,7 @@ extension SoupMenuManager {
     func removeDonation(for menuItem: MenuItem) {
         if menuItem.isAvailable == false {
             guard let orderHistory = orderManager?.orderHistory else { return }
-            let ordersAssociatedWithRemovedMenuItem = orderHistory.filter { $0.menuItem.itemName == menuItem.itemName }
+            let ordersAssociatedWithRemovedMenuItem = orderHistory.filter { $0.menuItem.item == menuItem.item }
             let orderIdentifiersToRemove = ordersAssociatedWithRemovedMenuItem.map { $0.identifier.uuidString }
             
             INInteraction.delete(with: orderIdentifiersToRemove) { (error) in
@@ -45,7 +45,7 @@ extension SoupMenuManager {
     private func updateSuggestions() {
         
         let dailySpecialSuggestedShortcuts = availableDailySpecialItems.compactMap { (menuItem) -> INRelevantShortcut? in
-            let order = Order(quantity: 1, menuItem: menuItem, menuItemOptions: [])
+            let order = Order(quantity: 1, menuItem: menuItem, menuItemToppings: [])
             let orderIntent = order.intent
             
             guard let shortcut = INShortcut(intent: orderIntent) else { return nil }
@@ -83,7 +83,7 @@ extension SoupMenuManager {
     private func updateMenuItemShortcuts() {
         
         let availableShortcuts = availableRegularItems.compactMap { (menuItem) -> INShortcut? in
-            let order = Order(quantity: 1, menuItem: menuItem, menuItemOptions: [])
+            let order = Order(quantity: 1, menuItem: menuItem, menuItemToppings: [])
             return INShortcut(intent: order.intent)
         }
         

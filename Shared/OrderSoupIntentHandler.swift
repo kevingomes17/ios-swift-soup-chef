@@ -6,9 +6,106 @@ Intent handler for `OrderSoupIntent`.
 */
 
 import UIKit
+import CoreLocation
+import Intents
 
 public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
-
+    
+    /// - Tag: options
+    public func provideToppingsOptions(for intent: OrderSoupIntent, with completion: @escaping ([INObject]?, Error?) -> Void) {
+        // Map menu item toppings to custom objects and provide them to the user.
+        // The user will be able to choose one or more options.
+        let toppings = Order.MenuItemTopping.all.map { (topping) -> INObject in
+            let displayString = NSString.deferredLocalizedIntentsString(with: topping.shortcutLocalizationKey) as String
+            return INObject(identifier: topping.rawValue, display: displayString)
+        }
+        completion(toppings, nil)
+    }
+    
+    public func provideStoreLocationOptions(for intent: OrderSoupIntent, with completion: @escaping ([CLPlacemark]?, Error?) -> Void) {
+        completion(Order.storeLocations, nil)
+    }
+    
+    /// - Tag: resolve_intent
+    public func resolveToppings(for intent: OrderSoupIntent, with completion: @escaping ([INObjectResolutionResult]) -> Void) {
+        guard let toppings = intent.toppings else {
+            completion([INObjectResolutionResult.needsValue()])
+            return
+        }
+        
+        if toppings.isEmpty {
+            completion([INObjectResolutionResult.notRequired()])
+            return
+        }
+        
+        completion(toppings.map { (topping) -> INObjectResolutionResult in
+            return INObjectResolutionResult.success(with: topping)
+        })
+    }
+    
+    public func resolveSoup(for intent: OrderSoupIntent, with completion: @escaping (SoupResolutionResult) -> Void) {
+        if intent.soup == .unknown {
+            completion(SoupResolutionResult.needsValue())
+        } else {
+            completion(SoupResolutionResult.success(with: intent.soup))
+        }
+    }
+    
+    public func resolveQuantity(for intent: OrderSoupIntent, with completion: @escaping (OrderSoupQuantityResolutionResult) -> Void) {
+        let soupMenuManager = SoupMenuManager()
+        guard let menuItem = soupMenuManager.findItem(soup: intent.soup) else {
+            completion(OrderSoupQuantityResolutionResult.unsupported())
+            return
+        }
+        
+        // A soup order requires a quantity.
+        guard let quantity = intent.quantity else {
+            completion(OrderSoupQuantityResolutionResult.needsValue())
+            return
+        }
+        
+        // If the user asks to order more soups than we have in stock,
+        // provide a specific response informing the user why we can't handle the order.
+        if quantity.intValue > menuItem.itemsInStock {
+            completion(OrderSoupQuantityResolutionResult.unsupported(forReason: .notEnoughInStock))
+            return
+        }
+        
+        // Ask the user to confirm that they actually want to order 5 or more soups.
+        if quantity.intValue >= 5 {
+            completion(OrderSoupQuantityResolutionResult.confirmationRequired(with: quantity.intValue))
+            return
+        }
+        
+        completion(OrderSoupQuantityResolutionResult.success(with: quantity.intValue))
+    }
+    
+    public func resolveOrderType(for intent: OrderSoupIntent, with completion: @escaping (OrderTypeResolutionResult) -> Void) {
+        if intent.orderType == .unknown {
+            completion(OrderTypeResolutionResult.needsValue())
+        } else {
+            completion(OrderTypeResolutionResult.success(with: intent.orderType))
+        }
+    }
+    
+    public func resolveDeliveryLocation(for intent: OrderSoupIntent, with completion: @escaping (INPlacemarkResolutionResult) -> Void) {
+        guard let deliveryLocation = intent.deliveryLocation else {
+            completion(INPlacemarkResolutionResult.needsValue())
+            return
+        }
+        
+        completion(INPlacemarkResolutionResult.success(with: deliveryLocation))
+    }
+    
+    public func resolveStoreLocation(for intent: OrderSoupIntent, with completion: @escaping (INPlacemarkResolutionResult) -> Void) {
+        guard let storeLocation = intent.storeLocation else {
+            completion(INPlacemarkResolutionResult.needsValue())
+            return
+        }
+        
+        completion(INPlacemarkResolutionResult.success(with: storeLocation))
+    }
+    
     /// - Tag: confirm_intent
     public func confirm(intent: OrderSoupIntent, completion: @escaping (OrderSoupIntentResponse) -> Void) {
         
@@ -17,16 +114,14 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
         verify that any needed services are available. You might confirm that you can communicate with your company’s server
          */
         let soupMenuManager = SoupMenuManager()
-        guard let soup = intent.soup,
-            let identifier = soup.identifier,
-            let menuItem = soupMenuManager.findItem(identifier: identifier) else {
+        guard let menuItem = soupMenuManager.findItem(soup: intent.soup) else {
                 completion(OrderSoupIntentResponse(code: .failure, userActivity: nil))
                 return
         }
 
         if menuItem.isAvailable == false {
             //  Here's an example of how to use a custom response for a failure case when a particular soup item is unavailable.
-            completion(OrderSoupIntentResponse.failureOutOfStock(soup: soup))
+            completion(OrderSoupIntentResponse.failureOutOfStock(soup: intent.soup))
             return
         }
         
@@ -36,8 +131,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     
     public func handle(intent: OrderSoupIntent, completion: @escaping (OrderSoupIntentResponse) -> Void) {
 
-        guard let soup = intent.soup,
-            let order = Order(from: intent)
+        guard let order = Order(from: intent)
         else {
             completion(OrderSoupIntentResponse(code: .failure, userActivity: nil))
             return
@@ -60,17 +154,21 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
         
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .full
+        
+        let orderDetails = OrderDetails(identifier: nil, display: formatter.string(from: orderDate, to: readyDate) ?? "")
+        orderDetails.estimatedTime = Calendar.current.dateComponents([.minute, .hour, .day, .month, .year], from: readyDate)
+        orderDetails.total = INCurrencyAmount(amount: NSDecimalNumber(decimal: order.total),
+                                              currencyCode: NumberFormatter.currencyFormatter.currencyCode)
+        
+        let response: OrderSoupIntentResponse
         if let formattedWaitTime = formatter.string(from: orderDate, to: readyDate) {
-            let response = OrderSoupIntentResponse.success(soup: soup, waitTime: formattedWaitTime)
-            response.userActivity = userActivity
-            
-            completion(response)
+            response = OrderSoupIntentResponse.success(orderDetails: orderDetails, soup: intent.soup, waitTime: formattedWaitTime)
         } else {
             // A fallback success code with a less specific message string
-            let response = OrderSoupIntentResponse.successReadySoon(soup: soup)
-            response.userActivity = userActivity
-            
-            completion(response)
+            response = OrderSoupIntentResponse.successReadySoon(orderDetails: orderDetails, soup: intent.soup)
         }
+        
+        response.userActivity = userActivity
+        completion(response)
     }
 }

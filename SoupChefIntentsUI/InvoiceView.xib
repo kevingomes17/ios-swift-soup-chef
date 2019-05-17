@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14805" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14762"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,23 +15,23 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="x3m-QY-vGT" customClass="InvoiceView" customModule="SoupChefIntentsUI" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="196"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="5VK-BP-NNi">
-                    <rect key="frame" x="20" y="16" width="280" height="107.5"/>
+                    <rect key="frame" x="20" y="16" width="280" height="133.5"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HNv-lq-y5J">
-                            <rect key="frame" x="0.0" y="24" width="60" height="60"/>
+                            <rect key="frame" x="0.0" y="37" width="60" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="jy6-Bg-zuX"/>
                                 <constraint firstAttribute="height" constant="60" id="svV-bZ-4Db"/>
                             </constraints>
                         </imageView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JCX-ui-FMN">
-                            <rect key="frame" x="80" y="10" width="200" height="88"/>
+                            <rect key="frame" x="80" y="11" width="200" height="112"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Item Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KAS-gW-tuH">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Item Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" autoshrinkMode="minimumScaleFactor" translatesAutoresizingMaskIntoConstraints="NO" id="KAS-gW-tuH">
                                     <rect key="frame" x="0.0" y="0.0" width="139.5" height="36"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                     <nil key="textColor"/>
@@ -45,9 +43,15 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Options" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVk-of-zG9">
-                                    <rect key="frame" x="0.0" y="70" width="54" height="18"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toppings" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVk-of-zG9" userLabel="Toppings Label">
+                                    <rect key="frame" x="0.0" y="70" width="63" height="18"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPl-3b-OSa">
+                                    <rect key="frame" x="0.0" y="96" width="33" height="16"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -56,7 +60,7 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qDQ-Y1-oX5">
-                    <rect key="frame" x="195.5" y="133.5" width="104.5" height="20.5"/>
+                    <rect key="frame" x="195.5" y="159.5" width="104.5" height="20.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4N-vs-dFr">
                             <rect key="frame" x="0.0" y="0.0" width="37.5" height="20.5"/>
@@ -86,11 +90,13 @@
             <viewLayoutGuide key="safeArea" id="pvn-ta-NZV"/>
             <connections>
                 <outlet property="imageView" destination="HNv-lq-y5J" id="utI-6y-TnD"/>
+                <outlet property="infoLabel" destination="CPl-3b-OSa" id="HRM-pc-h63"/>
                 <outlet property="itemNameLabel" destination="KAS-gW-tuH" id="Muo-Va-HIU"/>
-                <outlet property="optionsLabel" destination="fVk-of-zG9" id="Vje-HB-emp"/>
+                <outlet property="toppingsLabel" destination="fVk-of-zG9" id="rWH-Me-4Eu"/>
                 <outlet property="totalPriceLabel" destination="JXd-5v-zCW" id="1Wf-be-SFR"/>
                 <outlet property="unitPriceLabel" destination="AAU-Lk-VFp" id="bqB-ZV-W6t"/>
             </connections>
+            <point key="canvasLocation" x="137.59999999999999" y="165.51724137931035"/>
         </view>
     </objects>
 </document>

@@ -37,7 +37,7 @@ class SoupMenuViewController: UITableViewController {
             
             if sender as? UITableViewCell? != nil,
                 let indexPath = tableView.indexPathForSelectedRow {
-                order = Order(quantity: 1, menuItem: menuItems[indexPath.row], menuItemOptions: [])
+                order = Order(quantity: 1, menuItem: menuItems[indexPath.row], menuItemToppings: [])
             } else if let activity = sender as? NSUserActivity,
                 let orderIntent = activity.interaction?.intent as? OrderSoupIntent {
                 order = Order(from: orderIntent)

@@ -17,7 +17,7 @@ struct OrderDetailTableConfiguration {
     enum SectionType: String {
         case price = "Price"
         case quantity = "Quantity"
-        case options = "Options"
+        case toppings = "Toppings"
         case total = "Total"
     }
     
@@ -40,8 +40,8 @@ struct OrderDetailTableConfiguration {
                                                                SectionModel(type: .quantity,
                                                                             rowCount: 1,
                                                                             cellReuseIdentifier: ReuseIdentifiers.quantity.rawValue),
-                                                               SectionModel(type: .options,
-                                                                            rowCount: Order.MenuItemOption.all.count,
+                                                               SectionModel(type: .toppings,
+                                                                            rowCount: Order.MenuItemTopping.all.count,
                                                                             cellReuseIdentifier: ReuseIdentifiers.basic.rawValue),
                                                                SectionModel(type: .total,
                                                                             rowCount: 1,
@@ -50,8 +50,8 @@ struct OrderDetailTableConfiguration {
     private static let historicalOrderSectionModel: [SectionModel] = [SectionModel(type: .quantity,
                                                                                    rowCount: 1,
                                                                                    cellReuseIdentifier: ReuseIdentifiers.quantity.rawValue),
-                                                                      SectionModel(type: .options,
-                                                                                   rowCount: Order.MenuItemOption.all.count,
+                                                                      SectionModel(type: .toppings,
+                                                                                   rowCount: Order.MenuItemTopping.all.count,
                                                                                    cellReuseIdentifier: ReuseIdentifiers.basic.rawValue),
                                                                       SectionModel(type: .total,
                                                                                    rowCount: 1,

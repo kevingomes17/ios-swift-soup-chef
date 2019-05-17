@@ -43,7 +43,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
     
     private var desiredSize: CGSize {
         let width = self.extensionContext?.hostedViewMaximumAllowedSize.width ?? 320
-        return CGSize(width: width, height: 170)
+        return CGSize(width: width, height: 180)
     }
     
     private func attachChild(_ viewController: UIViewController) {

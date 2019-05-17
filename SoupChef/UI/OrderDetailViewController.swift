@@ -22,7 +22,7 @@ class OrderDetailViewController: UITableViewController {
     
     private weak var totalLabel: UILabel?
     
-    private var optionMap: [String: String] = [:]
+    private var toppingMap: [String: String] = [:]
     
     @IBOutlet var tableViewHeader: UIView!
     @IBOutlet weak var headerImageView: UIImageView!
@@ -129,17 +129,17 @@ extension OrderDetailViewController {
                     cell.stepper.isHidden = true
                 }
             }
-        case .options:
+        case .toppings:
             /*
-             Maintain a mapping of [rawValue: localizedValue] in order to help instanitate Order.MenuItemOption enum
-             later when an option is selected in the table view.
+             Maintain a mapping of [rawValue: localizedValue] in order to help instanitate Order.MenuItemTopping enum
+             later when a topping is selected in the table view.
              */
-            let option = Order.MenuItemOption.all[indexPath.row]
-            let localizedValue = option.rawValue
-            optionMap[localizedValue] = option.rawValue
+            let topping = Order.MenuItemTopping.all[indexPath.row]
+            let localizedValue = topping.rawValue
+            toppingMap[localizedValue] = topping.rawValue
             
             cell.textLabel?.text = localizedValue
-            cell.accessoryType = order.menuItemOptions.contains(option) ? .checkmark : .none
+            cell.accessoryType = order.menuItemToppings.contains(topping) ? .checkmark : .none
             
         case .total:
             //  Save a weak reference to the totalLabel for making quick updates later.
@@ -155,18 +155,18 @@ extension OrderDetailViewController {
     // MARK: - Table view delegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableConfiguration.sections[indexPath.section].type == .options && tableConfiguration.orderType == .new {
+        if tableConfiguration.sections[indexPath.section].type == .toppings && tableConfiguration.orderType == .new {
             
             guard let cell = tableView.cellForRow(at: indexPath),
                 let cellText = cell.textLabel?.text,
-                let optionRawValue = optionMap[cellText],
-                let option = Order.MenuItemOption(rawValue: optionRawValue) else { return }
+                let toppingRawValue = toppingMap[cellText],
+                let topping = Order.MenuItemTopping(rawValue: toppingRawValue) else { return }
             
-            if order.menuItemOptions.contains(option) {
-                order.menuItemOptions.remove(option)
+            if order.menuItemToppings.contains(topping) {
+                order.menuItemToppings.remove(topping)
                 cell.accessoryType = .none
             } else {
-                order.menuItemOptions.insert(option)
+                order.menuItemToppings.insert(topping)
                 cell.accessoryType = .checkmark
             }
         }
