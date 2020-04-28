@@ -10,9 +10,11 @@ import SoupKit
 
 class IntentHandler: INExtension {
     override func handler(for intent: INIntent) -> Any {
+        print("Main intent handler: ************************ ")
         guard intent is OrderSoupIntent else {
             fatalError("Unhandled intent type: \(intent)")
         }
+        print("Wonderful star: ***********************")
         return OrderSoupIntentHandler()
     }
 }

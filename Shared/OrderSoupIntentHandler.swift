@@ -15,6 +15,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     public func provideToppingsOptions(for intent: OrderSoupIntent, with completion: @escaping ([INObject]?, Error?) -> Void) {
         // Map menu item toppings to custom objects and provide them to the user.
         // The user will be able to choose one or more options.
+        print("provideToppingsOptions: ")
         let toppings = Order.MenuItemTopping.all.map { (topping) -> INObject in
             let displayString = NSString.deferredLocalizedIntentsString(with: topping.shortcutLocalizationKey) as String
             return INObject(identifier: topping.rawValue, display: displayString)
@@ -23,11 +24,13 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func provideStoreLocationOptions(for intent: OrderSoupIntent, with completion: @escaping ([CLPlacemark]?, Error?) -> Void) {
+        print("provideStoreLocationOptions: ")
         completion(Order.storeLocations, nil)
     }
     
     /// - Tag: resolve_intent
     public func resolveToppings(for intent: OrderSoupIntent, with completion: @escaping ([INObjectResolutionResult]) -> Void) {
+        print("resolveToppings: ")
         guard let toppings = intent.toppings else {
             completion([INObjectResolutionResult.needsValue()])
             return
@@ -44,6 +47,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func resolveSoup(for intent: OrderSoupIntent, with completion: @escaping (SoupResolutionResult) -> Void) {
+        print("resolveSoup: ")
         if intent.soup == .unknown {
             completion(SoupResolutionResult.needsValue())
         } else {
@@ -52,6 +56,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func resolveQuantity(for intent: OrderSoupIntent, with completion: @escaping (OrderSoupQuantityResolutionResult) -> Void) {
+        print("resolveQuantity: ")
         let soupMenuManager = SoupMenuManager()
         guard let menuItem = soupMenuManager.findItem(soup: intent.soup) else {
             completion(OrderSoupQuantityResolutionResult.unsupported())
@@ -81,6 +86,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func resolveOrderType(for intent: OrderSoupIntent, with completion: @escaping (OrderTypeResolutionResult) -> Void) {
+        print("resolveOrderType: ")
         if intent.orderType == .unknown {
             completion(OrderTypeResolutionResult.needsValue())
         } else {
@@ -89,6 +95,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func resolveDeliveryLocation(for intent: OrderSoupIntent, with completion: @escaping (INPlacemarkResolutionResult) -> Void) {
+        print("resolveDeliveryLocation: ")
         guard let deliveryLocation = intent.deliveryLocation else {
             completion(INPlacemarkResolutionResult.needsValue())
             return
@@ -98,6 +105,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func resolveStoreLocation(for intent: OrderSoupIntent, with completion: @escaping (INPlacemarkResolutionResult) -> Void) {
+        print("resolveStoreLocation: ")
         guard let storeLocation = intent.storeLocation else {
             completion(INPlacemarkResolutionResult.needsValue())
             return
@@ -108,6 +116,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     
     /// - Tag: confirm_intent
     public func confirm(intent: OrderSoupIntent, completion: @escaping (OrderSoupIntentResponse) -> Void) {
+        print("confirmIntent: ")
         
         /*
         The confirm phase provides an opportunity for you to perform any final validation of the intent parameters and to
@@ -130,7 +139,7 @@ public class OrderSoupIntentHandler: NSObject, OrderSoupIntentHandling {
     }
     
     public func handle(intent: OrderSoupIntent, completion: @escaping (OrderSoupIntentResponse) -> Void) {
-
+        print("handleIntent: ")
         guard let order = Order(from: intent)
         else {
             completion(OrderSoupIntentResponse(code: .failure, userActivity: nil))

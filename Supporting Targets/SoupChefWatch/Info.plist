@@ -23,7 +23,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>OrderSoupIntent</string>
-		<string>com.example.apple-samplecode.SoupChef.viewMenu</string>
+		<string>info.kgomes.SoupChef.viewMenu</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -31,7 +31,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.example.apple-samplecode.SoupChef${SAMPLE_CODE_DISAMBIGUATOR}</string>
+	<string>info.kgomes.SoupChef</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

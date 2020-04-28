@@ -19,8 +19,8 @@ extension NSUserActivity {
         case orderID
     }
     
-    public static let viewMenuActivityType = "com.example.apple-samplecode.SoupChef.viewMenu"
-    public static let orderCompleteActivityType = "com.example.apple-samplecode.SoupChef.orderComplete"
+    public static let viewMenuActivityType = "info.kgomes.SoupChef.viewMenu"
+    public static let orderCompleteActivityType = "info.kgomes.SoupChef.orderComplete"
     
     public static var viewMenuActivity: NSUserActivity {
         let userActivity = NSUserActivity(activityType: NSUserActivity.viewMenuActivityType)

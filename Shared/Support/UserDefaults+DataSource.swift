@@ -11,7 +11,7 @@ extension UserDefaults {
 
     /// - Tag: app_group
     // Note: This project does not share data between iOS and watchOS. Orders placed on the watch will not display in the iOS order history.
-    private static let AppGroup = "group.com.example.apple-samplecode.SoupChef.Shared"
+    private static let AppGroup = "group.info.kgomes.SoupChef"
     
     enum StorageKeys: String {
         case soupMenu
